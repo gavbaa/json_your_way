@@ -1049,7 +1049,7 @@ func typeFields(t reflect.Type) []field {
 				if name != "" || !sf.Anonymous || ft.Kind() != reflect.Struct {
 					tagged := name != ""
 					if name == "" {
-						name = sf.Name
+						name = strings.ToLower(sf.Name)
 					}
 					fields = append(fields, fillField(field{
 						name:      name,
