@@ -8,7 +8,7 @@
 //
 // See "JSON and Go" for an introduction to this package:
 // http://golang.org/doc/articles/json_and_go.html
-package json
+package json_your_way
 
 import (
 	"bytes"
