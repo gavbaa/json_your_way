@@ -130,6 +130,14 @@ import (
 // handle them.  Passing cyclic structures to Marshal will result in
 // an infinite recursion.
 //
+
+type StructKeyRenameInterface struct {
+	MarshalKey   func(string) string
+	UnmarshalKey func(string) string
+}
+
+var CustomJsonKey *StructKeyRenameInterface = nil
+
 func Marshal(v interface{}) ([]byte, error) {
 	e := &encodeState{}
 	err := e.marshal(v)
@@ -1049,7 +1057,12 @@ func typeFields(t reflect.Type) []field {
 				if name != "" || !sf.Anonymous || ft.Kind() != reflect.Struct {
 					tagged := name != ""
 					if name == "" {
-						name = strings.ToLower(sf.Name)
+						if CustomJsonKey != nil {
+							name = CustomJsonKey.MarshalKey(sf.Name)
+						}
+					}
+					if name == "" {
+						name = sf.Name
 					}
 					fields = append(fields, fillField(field{
 						name:      name,
