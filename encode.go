@@ -132,8 +132,7 @@ import (
 //
 
 type StructKeyRenameInterface struct {
-	MarshalKey   func(string) string
-	UnmarshalKey func(string) string
+	StructToJson func(string) string
 }
 
 var CustomJsonKey *StructKeyRenameInterface = nil
@@ -1058,7 +1057,7 @@ func typeFields(t reflect.Type) []field {
 					tagged := name != ""
 					if name == "" {
 						if CustomJsonKey != nil {
-							name = CustomJsonKey.MarshalKey(sf.Name)
+							name = CustomJsonKey.StructToJson(sf.Name)
 						}
 					}
 					if name == "" {
